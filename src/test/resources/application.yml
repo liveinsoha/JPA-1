@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:test
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+          #show_sql: true
+       format_sql: true
+       dialect: org.hibernate.dialect.H2Dialect
+
+logging.level:
+  org.hibernate.SQL: debug
+  org.hibernate.orm.jdbc.bind: trace
+
+# main폴더와 test폴더에 각각 yml파일이 있으면 test실행시에는 test폴더의 resource/application.yml을 읽는다.
+# 경로설정을 메모리로 해두었다. -> H2데이터베이스가 켜지지 않은 상태에서도 테스트를 진행할 수 있다.
+# main의 설정과 test의 설정을 분리하는게 일반적으로 옳다.갤럭시135
