@@ -30,7 +30,7 @@ public class Order {
     @JoinColumn(name = "member_id")
     Member member;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)//orderItem의 필드 order와 매핑. 나는 orderItem의 필드 order에 매핑된거야
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)//orderItem의 필드 order와 매핑. 나(이 클래스)는 orderItem의 필드 order에 매핑된거야
     //내가 매핑한 게 아니라 매핑된 거울일 뿐이야(일대다의 관계) 하나의 order에 여러개의 orderItem이 있다
     private List<OrderItem> orderItems = new ArrayList<>();
 

@@ -25,7 +25,7 @@ public abstract class Item {
     private int price;
     private int stockQuantity;
 
-    @ManyToMany(mappedBy = "items")
+    @ManyToMany(mappedBy = "items") //나(이 클래스 item)은 상대(category) 매핑되었을 뿐이야
     List<Category> categories = new ArrayList<>();
 
     public void addStockQuantity(int quantity) {
@@ -37,6 +37,10 @@ public abstract class Item {
             throw new NotEnoughStockException("[ERROR] 재고가 부족합니다");
         }
         stockQuantity -= quantity;
+    }
+
+    public void addCategory(Category category) {
+        categories.add(category);
     }
 
 }

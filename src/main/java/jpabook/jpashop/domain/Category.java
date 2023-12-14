@@ -31,6 +31,7 @@ public class Category {
     Category parent;
 
     @OneToMany(mappedBy = "parent") //자식 카테고리 여러개. 재밌다 연관관계. 다른 엔티티랑 매핑하듯이 하면 된다.
+            //나(이 클래스는)매핑되었을 뿐이야 상대(categoryu)의 parent에 매핑되어 있음.
     List<Category> child = new ArrayList<>();
 
 
