@@ -98,3 +98,126 @@ Delivery와 Order은 서로 다른 객체이지만 현재 일대일로 매핑되
 원래는 각각 리포지토리에서 em이 persist등을 해주어야 하지만 현재는 Order 클래스에에 cascade설정이 되어 있으므로 order만 persist해주면 
 그 상태가 매핑되어 있는 delivery에도 전파된다. 부모 엔티티가 딱 하나인 경우에만 cascade를 쓰는 게 좋다(라이프 사이클이 같을 때). 여러곳에서 참조할 경우 유지보수가 어려워진다
 매핑이 복잡하게 얽혀있으면 cascade를 쓰는 것 보다. 별도의  리포지토리를 생성해서 persist하는 게 낫다.
+
+## th:replace는 Thymeleaf 템플릿 엔진에서 사용되는 속성으로, 특정 속성값에 해당하는 템플릿(fragment)을 현재 위치에 치환(대체)하는 역할을 합니다. 
+이를 통해 웹 페이지의 일부를 모듈화하고 재사용성을 높일 수 있습니다.
+head th:replace="fragments/header :: header"에서 각 부분의 역할을 살펴보겠습니다:
+head: 이는 현재 위치에 특정 템플릿을 대체할 때 어떤 태그에 적용할지를 나타냅니다. 여기서는 <head> 태그에 대체됩니다.
+th:replace: Thymeleaf의 속성으로, 지정된 위치에 특정 템플릿을 대체하도록 지시하는 역할을 합니다.
+fragments/header: 대체할 템플릿의 경로를 지정합니다. fragments는 템플릿이 위치한 디렉토리이며, header는 대체할 템플릿의 이름입니다.
+:: header: fragments/header에서 대체할 템플릿의 일부분을 지정하는 것으로, 여기서는 header 템플릿 전체를 대체하도록 합니다.
+이러한 설정은 보통 웹 페이지의 공통된 부분(예: 헤더, 푸터)을 따로 분리하여 재사용하고자 할 때 사용됩니다. 
+따라서 fragments/header 템플릿에는 <head> 태그 내에서 필요한 CSS, JavaScript 파일 링크, 메타 정보 등이 정의되어 있을 것이고, 
+이를 다른 페이지에서 head에 적용함으로써 중복된 코드를 피할 수 있습니다.
+
+## 폼(Form)-서브밋(submit) 방식은 웹 페이지에서 사용자가 폼에 입력한 데이터를 서버로 전송하는 방식을 의미합니다. 
+사용자가 웹 페이지에서 어떤 동작을 수행하기 위해 정보를 입력하고 제출(submit)할 때 이 방식이 사용됩니다. 주로 HTML <form> 요소를 사용하여 구현됩니다.
+폼-서브밋의 주요 특징은 다음과 같습니다:
+HTML <form> 요소: 폼은 HTML <form> 요소로 정의되며, 사용자가 입력할 수 있는 여러 종류의 입력 필드(텍스트 상자, 체크 박스, 라디오 버튼 등)와 제출 버튼이 포함됩니다.
+폼 데이터 전송: 사용자가 입력한 데이터는 폼 안의 입력 필드들에 의해 정의된 데이터로 구성됩니다. 이 데이터는 폼을 제출(submit)할 때 서버로 전송됩니다.
+제출 버튼: 사용자는 폼 안에 있는 제출 버튼(일반적으로 "Submit" 또는 "확인" 버튼)을 클릭하여 폼을 서버로 제출합니다.
+HTTP 요청 메서드: 제출된 폼은 HTTP 요청 메서드 중 하나인 GET 또는 POST를 사용하여 서버로 전송됩니다. 일반적으로, GET은 주로 검색 쿼리와 같이 데이터를 URL에 첨부할 때 사용되며, POST는 주로 데이터를 요청 본문에 담아 전송할 때 사용됩니다.
+예시:
+````
+html
+<form action="/submit" method="post">
+    <label for="username">사용자 이름:</label>
+    <input type="text" id="username" name="username">
+
+    <label for="password">비밀번호:</label>
+    <input type="password" id="password" name="password">
+
+    <button type="submit">제출</button>
+</form>
+````
+위의 예시에서는 사용자가 사용자 이름과 비밀번호를 입력하고 "제출" 버튼을 클릭하면 /submit 경로로 POST 요청이 서버에 전송됩니다. 
+서버는 이러한 데이터를 받아 처리하고, 클라이언트에 대한 응답을 생성할 수 있습니다.
+
+## <td> (Table Data):
+`<td>`는 HTML에서 표(table)의 각 행(row)에 있는 데이터 셀을 정의하는 태그입니다.
+Thymeleaf의 th:text 속성을 사용하여 해당 셀에 동적으로 데이터를 바인딩합니다. 이는 서버 측에서 전달된 데이터를 클라이언트 측 HTML에 표시하는 데 사용됩니다.
+html
+Copy code
+
+<!--    <td th:text="${item.id}"></td>
+위의 예시에서 item.id는 서버에서 전달받은 각 아이템의 ID를 나타내며, 이를 해당 행의 첫 번째 셀에 표시합니다.
+
+## <a> (Anchor):
+<a>는 HTML에서 하이퍼링크(링크)를 생성하는 태그입니다.
+Thymeleaf의 th:href 속성을 사용하여 링크의 주소를 동적으로 생성합니다. 주로 서버로부터 받은 데이터를 기반으로 동적인 주소를 생성할 때 활용됩니다.
+html
+Copy code
+<a href="#" th:href="@{/items/{id}/edit (id=${item.id})}" class="btn btn-primary" role="button">수정</a>
+위의 예시에서 @{/items/{id}/edit (id=${item.id})}는 링크의 주소를 동적으로 생성합니다. ${item.id}는 각 아이템의 ID를 나타내며, 
+예를 들어, /items/1/edit, /items/2/edit, ...와 같은 형태로 생성됩니다. 이렇게 생성된 주소는 클라이언트가 클릭할 때 해당 링크로 이동하게 됩니다.
+
+종합적으로, <td>는 표의 데이터 셀을 나타내며, th:text 속성을 통해 동적으로 데이터를 표시합니다. <a>는 하이퍼링크를 생성하며, 
+th:href 속성을 통해 동적으로 링크의 주소를 생성합니다. 이러한 기능들은 Thymeleaf를 통해 서버에서 전달된 데이터를 동적으로 HTML에 표시하고, 
+클라이언트와 서버 간의 상호작용을 가능케 합니다.
+
+## action과 method는 HTML <form> 요소에서 사용되는 속성으로, 폼이 서버로 제출될 때의 동작을 정의합니다.
+
+### action 속성:
+action 속성은 폼 데이터가 제출될 때 데이터가 전송되는 서버의 URL을 나타냅니다.
+주로 서버 측 컨트롤러나 서블릿에 해당하는 엔드포인트의 경로를 지정합니다.
+html
+Copy code
+
+<form action="/submit" method="post">
+    <!-- 폼 내용 -->
+</form>
+
+
+위의 예시에서는 폼이 /submit 경로로 데이터를 전송합니다. 실제로는 서버에서 이 경로에 해당하는 로직을 수행하는 컨트롤러나 서블릿이 있어야 합니다.
+
+### method 속성:
+method 속성은 폼 데이터를 서버로 전송할 때 사용되는 HTTP 요청 메서드를 나타냅니다.
+가장 일반적으로 사용되는 메서드는 GET과 POST입니다. GET은 데이터를 URL에 첨부하여 전송하고, POST는 요청 본문에 데이터를 담아 전송합니다.
+html
+Copy code
+``````
+<form action="/submit" method="post">
+    <!-- 폼 내용 -->
+</form>
+``````
+위의 예시에서는 method="post"로 설정되어 있으므로, 폼 데이터는 POST 메서드를 사용하여 서버로 전송됩니다.
+
+예시:
+````
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Example</title>
+</head>
+<body>
+    <form action="/submit" method="post">
+        <label for="username">사용자 이름:</label>
+        <input type="text" id="username" name="username">
+
+        <label for="password">비밀번호:</label>
+        <input type="password" id="password" name="password">
+
+        <button type="submit">제출</button>
+    </form>
+</body>
+</html>
+````
+
+위의 예시에서는 폼이 /submit 경로로 POST 메서드를 사용하여 데이터를 전송하도록 설정되어 있습니다. 
+이 폼을 사용자가 제출하면, 입력된 사용자 이름과 비밀번호는 서버로 전송되어 /submit에 해당하는 서버 로직을 실행하게 됩니다.
+
+## HTML <form> 요소에 action 속성이 없는 경우, 폼 데이터는 현재 URL로 전송됩니다. 이는 폼이 있는 현재 페이지의 URL로 데이터를 전송한다는 의미입니다. 
+
+예를 들어, 현재 페이지 URL이 "http://example.com/form"인 경우, 폼이 제출되면 데이터는 "http://example.com/form"으로 전송됩니다.
+아래는 action 속성이 없는 <form> 요소의 예시입니다:
+html
+```
+<form th:object="${form}" method="post">
+    <!-- 폼 내용 -->
+</form>
+```
+이 경우, 폼 데이터는 현재 페이지 URL로 전송됩니다. 이러한 방식은 단일 페이지 애플리케이션(SPA)이나 데이터를 현재 페이지에서 처리하는 경우에 주로 사용됩니다.
+참고: action 속성이 없는 폼을 사용하는 것은 특별한 상황에 해당하며, 
+대부분의 경우에는 명시적으로 action 속성을 설정하여 데이터를 전송할 엔드포인트를 지정하는 것이 권장됩니다.
