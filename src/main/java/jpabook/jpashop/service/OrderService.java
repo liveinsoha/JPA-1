@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -43,6 +44,7 @@ public class OrderService {
         return order.getId();
     }
 
+
     @Transactional
     public void cancel(Long orderId) {
         Order order = orderRepository.findOne(orderId);
@@ -51,6 +53,17 @@ public class OrderService {
 
     public List<Order> findOrders(OrderSearch orderSearch) {
         return orderRepository.findAllByString(orderSearch);
+    }
+
+    public List<Order> findOrdersWithMemberDelivery(OrderSearch orderSearch) {
+        return orderRepository.findAllWithMemberDelivery(orderSearch);
+    }
+    public List<Order> findOrderWithItem(int offset, int limit){
+        return orderRepository.findAllWithMemberDelivery(offset,limit);
+    }
+
+    public List<Order> findOrdersWithItem() {
+        return orderRepository.findAllWithItem();
     }
 
 }

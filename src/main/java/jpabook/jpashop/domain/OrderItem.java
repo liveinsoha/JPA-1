@@ -1,7 +1,9 @@
 package jpabook.jpashop.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jpabook.jpashop.domain.item.Item;
+import jpabook.jpashop.dtos.OrderItemDto;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,6 +22,7 @@ public class OrderItem {
     @JoinColumn(name = "item_id")
     private Item item;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY) //다대일의 관계 order에 여러개의 orderItem이 있다
     @JoinColumn(name = "order_id")
     Order order;
@@ -45,5 +48,9 @@ public class OrderItem {
 
     public int getTotalPrice() {
         return getOrderPrice() * getCount();
+    }
+
+    public OrderItemDto toDto() {
+        return new OrderItemDto(id, item.toDto(), orderPrice, count);
     }
 }

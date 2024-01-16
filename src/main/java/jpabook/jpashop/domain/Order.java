@@ -1,12 +1,16 @@
 package jpabook.jpashop.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jpabook.jpashop.dtos.OrderDto;
+import jpabook.jpashop.dtos.OrderItemDto;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.aspectj.weaver.ast.Or;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.domain.jaxb.SpringDataJaxb;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -19,18 +23,18 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED) //기본 생성자 protected설정
 public class Order {
 
-
-
     @Id
     @GeneratedValue
     @Column(name = "order_id")
     Long id;
 
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     Member member;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)//orderItem의 필드 order와 매핑. 나(이 클래스)는 orderItem의 필드 order에 매핑된거야
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+//orderItem의 필드 order와 매핑. 나(이 클래스)는 orderItem의 필드 order에 매핑된거야
     //내가 매핑한 게 아니라 매핑된 거울일 뿐이야(일대다의 관계) 하나의 order에 여러개의 orderItem이 있다
     private List<OrderItem> orderItems = new ArrayList<>();
 
@@ -80,10 +84,17 @@ public class Order {
     }
 
 
-
     public int getTotalOrderPrice() {
         return orderItems.stream()
                 .mapToInt(OrderItem::getTotalPrice)
                 .sum();
+    }
+
+    public OrderDto toDto() {
+        List<OrderItemDto> orderItemDtos = new ArrayList<>();
+        for (OrderItem orderItem : orderItems) {
+            orderItemDtos.add(orderItem.toDto());
+        }
+        return new OrderDto(id, orderItemDtos, orderDate, status);
     }
 }

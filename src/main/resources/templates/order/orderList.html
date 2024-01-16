@@ -8,7 +8,7 @@
         <div>
             <form th:object="${orderSearch}" class="form-inline">
                 <div class="form-group mb-2">
-                    <input type="text" th:field="*{memberName}" class="formcontrol"
+                    <input type="text" th:field="*{memberName}" class="form-control"
                            placeholder="회원명"/>
                 </div>
                 <div class="form-group mx-sm-1 mb-2">
@@ -47,9 +47,10 @@
                 <td th:text="${item.status}"></td>
                 <td th:text="${item.orderDate}"></td>
                 <td>
-                    <a th:if="${item.status.name() == 'ORDER'}" href="#" <!--item.status.name이 주문인경우 취소할 수 있는 버튼을 생성한다.-->
+                    <a th:if="${item.status.name() == 'ORDER'}" href="#"
                        th:href="'javascript:cancel('+${item.id}+')'"
                        class="btn btn-danger">CANCEL</a>
+                    <!--item.status.name이 주문인경우 취소할 수 있는 버튼을 생성한다.-->
                 </td>
             </tr>
             </tbody>
